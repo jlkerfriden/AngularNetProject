@@ -1,0 +1,49 @@
+<div>
+  <div class="signup">
+    <h3 class="signup-header">
+      Sign up
+    </h3>
+    <form class="signup-container" [formGroup]="signupForm" novalidate>
+      <div class="form-group">
+        <input type="email" class="form-control" formControlName="email" placeholder="Email" [ngClass]="{'signup-input-valid': !email?.invalid && (email?.dirty || email?.touched)}" />
+        <div *ngIf="email?.invalid && (submitted || email?.touched)">
+          <div *ngIf="email?.errors?.['required']" class="alert alert-danger">
+            Email is required
+          </div>
+          <div *ngIf="email?.errors?.['email']" class="alert alert-danger">
+            Invalid email format
+          </div>
+        </div>
+
+        <input type="password" class="form-control" formControlName="password" placeholder="Password" [ngClass]="{'signup-input-valid': !password?.invalid && (password?.dirty || password?.touched)}" />
+        <div *ngIf="password?.invalid && (submitted || password?.touched)">
+          <div *ngIf="password?.errors?.['required']" class="alert alert-danger">
+            Password is required
+          </div>
+          <div *ngIf="password?.errors?.['pattern']" class="alert alert-danger">
+            Invalid password format
+          </div>
+          <div *ngIf="password?.errors?.['minlength']" class="alert alert-danger">
+            Password is too short (6 characters minimum)
+          </div>
+          <div *ngIf="password?.errors?.['maxlength']" class="alert alert-danger">
+            Password is too long (20 characters maximum)
+          </div>
+        </div>
+
+        <input type="password" class="form-control" formControlName="passwordConfirm" placeholder="Confirm password" [ngClass]="{'signup-input-valid': !passwordConfirm?.invalid && (passwordConfirm?.dirty || passwordConfirm?.touched) && passwordConfirm?.value == password?.value}" />
+        <div *ngIf="passwordConfirm?.invalid && (submitted || passwordConfirm?.touched)">
+          <div *ngIf="passwordConfirm?.errors?.['required']" class="alert alert-danger">
+            Password confirmation is required
+          </div>
+        </div>
+        <div *ngIf="passwordConfirm?.value != password?.value && (submitted || passwordConfirm?.touched)" class="alert alert-danger">
+          The two password are different
+        </div>
+        
+
+        <button type="button" (click)="sendSignup()">Sign up</button>
+      </div>
+    </form>
+  </div>
+</div>
