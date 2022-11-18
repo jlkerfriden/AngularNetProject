@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { matchValidator } from '../../validators/field-match-validator';
 
 @Component({
   selector: 'app-sign-up',
@@ -9,15 +10,19 @@ import { HttpClient } from '@angular/common/http';
 })
 export class SignUpComponent implements OnInit {
 
+  http: HttpClient;
+  baseUrl: string;
   signupForm: FormGroup;
   submitted = false;
 
-  constructor(private fb: FormBuilder, private http: HttpClient, @Inject('BASE_URL') private baseUrl: string) {
+  constructor(private fb: FormBuilder, private _http: HttpClient, @Inject('BASE_URL') private _baseUrl: string) {
     this.signupForm = this.fb.group({
       email: ['', Validators.compose([Validators.email, Validators.required])],
-      password: ['', Validators.compose([Validators.pattern('[a-zA-Z0-9 _-]*'), Validators.minLength(6), Validators.maxLength(20), Validators.required])],
-      passwordConfirm: ['', Validators.compose([Validators.pattern('[a-zA-Z0-9 _-]*'), Validators.minLength(6), Validators.maxLength(20), Validators.required])],
+      password: ['', Validators.compose([Validators.pattern('[a-zA-Z0-9 _-]*'), Validators.minLength(6), Validators.maxLength(20), Validators.required, matchValidator('passwordConfirm', true)])],
+      passwordConfirm: ['', Validators.compose([Validators.pattern('[a-zA-Z0-9 _-]*'), Validators.minLength(6), Validators.maxLength(20), Validators.required, matchValidator('password')])],
     });
+    this.http = _http;
+    this.baseUrl = _baseUrl;
   }
 
   ngOnInit(): void {
@@ -37,7 +42,17 @@ export class SignUpComponent implements OnInit {
 
     if (this.signupForm.valid) {
       // API call
+      this.http.get<WeatherForecast[]>(this.baseUrl + 'weatherforecast').subscribe(result => {
+        console.log(result);
+      }, error => console.error(error));
     }
   }
 
+}
+
+interface WeatherForecast {
+  date: string;
+  temperatureC: number;
+  temperatureF: number;
+  summary: string;
 }
