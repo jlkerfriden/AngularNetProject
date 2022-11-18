@@ -32,7 +32,7 @@
   background: #1567a5;
   box-sizing: border-box;
   color: #FFF;
-  display: block;
+  margin-bottom: 16px;
   padding: 10px 0px;
   width: 100%;
 }
