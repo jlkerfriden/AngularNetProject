@@ -3,7 +3,7 @@
     <h3 class="signup-header">
       Sign up
     </h3>
-    <form class="signup-container" [formGroup]="signupForm" novalidate>
+    <form class="signup-container" [formGroup]="signupForm" (submit)="sendSignup()" novalidate>
       <div class="form-group">
         <input type="email" class="form-control" formControlName="email" placeholder="Email" [ngClass]="{'signup-input-valid': !email?.invalid && (email?.dirty || email?.touched)}" />
         <div *ngIf="email?.invalid && (submitted || email?.touched)">
@@ -42,7 +42,7 @@
         </div>
         
 
-        <button type="button" (click)="sendSignup()">Sign up</button>
+        <button type="submit">Sign up</button>
       </div>
     </form>
   </div>

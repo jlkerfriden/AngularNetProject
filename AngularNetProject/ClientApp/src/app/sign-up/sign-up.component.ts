@@ -1,6 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { from, Observable } from 'rxjs';
 import { matchValidator } from '../../validators/field-match-validator';
 
 @Component({
@@ -23,6 +24,12 @@ export class SignUpComponent implements OnInit {
     });
     this.http = _http;
     this.baseUrl = _baseUrl;
+
+
+    const data = from(fetch(this.baseUrl + 'weatherforecast'));
+    data.subscribe({
+      next(response) { console.log(response) }
+    });
   }
 
   ngOnInit(): void {
