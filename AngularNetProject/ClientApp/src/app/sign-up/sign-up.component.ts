@@ -1,8 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { from, Observable } from 'rxjs';
 import { matchValidator } from '../../validators/field-match-validator';
+import { UserRegistrationDto } from '../_interfaces/UserRegistrationDto';
+import { UserRegistrationResponseDto } from '../_interfaces/UserRegistrationResponseDto';
+import { AuthenticationService } from '../services/authentication.service';
 
 @Component({
   selector: 'app-sign-up',
@@ -15,8 +18,10 @@ export class SignUpComponent implements OnInit {
   baseUrl: string;
   signupForm: FormGroup;
   submitted = false;
+  successfull = false;
+  responseErrors: any;
 
-  constructor(private fb: FormBuilder, private _http: HttpClient, @Inject('BASE_URL') private _baseUrl: string) {
+  constructor(private fb: FormBuilder, private _http: HttpClient, @Inject('BASE_URL') private _baseUrl: string, private _authService: AuthenticationService) {
     this.signupForm = this.fb.group({
       email: ['', Validators.compose([Validators.email, Validators.required])],
       password: ['', Validators.compose([Validators.pattern('[a-zA-Z0-9 _-]*'), Validators.minLength(6), Validators.maxLength(20), Validators.required, matchValidator('passwordConfirm', true)])],
@@ -26,10 +31,15 @@ export class SignUpComponent implements OnInit {
     this.baseUrl = _baseUrl;
 
 
-    const data = from(fetch(this.baseUrl + 'weatherforecast'));
-    data.subscribe({
-      next(response) { console.log(response) }
-    });
+    //const data = from(fetch(this.baseUrl + 'weatherforecast'));
+    //data.subscribe({
+    //  next(response) { console.log(response) }
+    //});
+
+
+    //this.http.get<number>(this.baseUrl + 'register').subscribe(result => {
+    //  console.log(result);
+    //}, error => console.error(error));
   }
 
   ngOnInit(): void {
@@ -52,6 +62,28 @@ export class SignUpComponent implements OnInit {
       this.http.get<WeatherForecast[]>(this.baseUrl + 'weatherforecast').subscribe(result => {
         console.log(result);
       }, error => console.error(error));
+
+      const config = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
+      var strEmail = this.signupForm.get('email')?.value;
+      var strPassword = this.signupForm.get('password')?.value;
+
+      var userRegistration: UserRegistrationDto = {
+        email: strEmail,
+        password: strPassword
+      }
+      //this.http.post<UserRegistrationResponseDto>(this.baseUrl + 'register', userRegistration, { headers: config }).subscribe(result => {
+      //  console.log(result);
+      //}, error => console.error(error));
+      this._authService.signup(userRegistration).subscribe({
+        next: (_) => {
+          console.log("Successful registration");
+          this.successfull = true;
+        },
+        error: (err: HttpErrorResponse) => {
+          console.log(err.error.errors);
+          this.responseErrors = err.error.errors;
+        }
+      });
     }
   }
 

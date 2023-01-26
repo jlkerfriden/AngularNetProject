@@ -2,6 +2,10 @@ using AngularNetProject.Model;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using AngularNetProject;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -14,6 +18,28 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+var jwtSettings = builder.Configuration.GetSection("JwtSettings");
+builder.Services.AddAuthentication(opt =>
+{
+    opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+}).AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = jwtSettings["validIssuer"],
+        ValidAudience = jwtSettings["validAudience"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8
+            .GetBytes(jwtSettings.GetSection("securityKey").Value))
+    };
+});
+
+builder.Services.AddScoped<JwtHandler>();
 
 
 builder.Services.Configure<IdentityOptions>(options =>
@@ -37,6 +63,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 //app.UseIdentityServer();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.MapControllerRoute(
