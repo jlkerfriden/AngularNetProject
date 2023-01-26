@@ -1,11 +1,11 @@
-.signup {
+.login {
   background: #F9F9F9;
   border-radius: 2px;
   margin: 16px auto;
   width: 400px;
 }
 
-.signup-header {
+.login-header {
   background: #188fe8;
   color: #FFF;
   font-size: 18px;
@@ -15,11 +15,11 @@
   text-transform: uppercase;
 }
 
-.signup-container {
+.login-container {
   padding: 0px 20px;
 }
 
-.signup input {
+.login input {
   box-sizing: border-box;
   display: block;
   margin: 16px 0px;
@@ -27,7 +27,7 @@
   width: 100%;
 }
 
-.signup button {
+.login button {
   border: none;
   background: #1567a5;
   box-sizing: border-box;
@@ -37,11 +37,11 @@
   width: 100%;
 }
 
-.signup-input-valid {
-    background: #e7f8dc;
+.login-input-valid {
+  background: #e7f8dc;
 }
 
-.signup-result-successfull-checkbox {
+.login-result-successfull-checkbox {
   border-radius: 20px;
   box-sizing: border-box;
   background: #79D13F;
@@ -54,14 +54,14 @@
   width: 40px;
 }
 
-.signup-result-successfull-text {
+.login-result-successfull-text {
   display: block;
   padding: 0px 10px;
   text-align: center;
   width: 100%;
 }
 
-.signup-result-error {
+.login-result-error {
   color: #E11;
   display: block;
   font-size: 12px;

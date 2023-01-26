@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="IdentityServer4" Version="4.1.2" />
     <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.SpaProxy" Version="6.0.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.11" />
@@ -30,11 +31,30 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\Class.cs" />
+    <Compile Remove="Controllers\WeatherForecastController - Copier.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ClientApp\src\app\_interfaces\UserLoginDto.ts" />
+    <None Remove="ClientApp\src\app\_interfaces\UserLoginResponseDto.ts" />
+    <None Remove="ClientApp\src\app\_interfaces\UserRegistrationDto - Copier.ts" />
+    <None Remove="ClientApp\src\app\_interfaces\UserRegistrationDto.ts" />
+    <None Remove="ClientApp\src\app\_interfaces\UserStatus.ts" />
     <None Remove="ClientApp\src\validators\field-match-validator.ts" />
   </ItemGroup>
 
   <ItemGroup>
+    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\UserStatus.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\UserLoginDto.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\UserLoginResponseDto.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\UserRegistrationDto.ts" />
     <TypeScriptCompile Include="ClientApp\src\validators\field-match-validator.ts" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="ClientApp\src\app\guards\" />
+    <Folder Include="ClientApp\src\app\services\" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">
