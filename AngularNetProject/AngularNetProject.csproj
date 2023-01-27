@@ -36,25 +36,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="ClientApp\src\app\_interfaces\UserLoginDto.ts" />
-    <None Remove="ClientApp\src\app\_interfaces\UserLoginResponseDto.ts" />
+    <None Remove="ClientApp\src\app\_interfaces\model\app-user.model.ts" />
+    <None Remove="ClientApp\src\app\_interfaces\model\weather-forecast.ts" />
+    <None Remove="ClientApp\src\app\_interfaces\userlogin.dto.ts" />
+    <None Remove="ClientApp\src\app\_interfaces\userloginresponse.dto.ts" />
+    <None Remove="ClientApp\src\app\_interfaces\userregistration.dto.ts" />
     <None Remove="ClientApp\src\app\_interfaces\UserRegistrationDto - Copier.ts" />
-    <None Remove="ClientApp\src\app\_interfaces\UserRegistrationDto.ts" />
-    <None Remove="ClientApp\src\app\_interfaces\UserStatus.ts" />
+    <None Remove="ClientApp\src\app\_interfaces\userstatus.model.ts" />
     <None Remove="ClientApp\src\validators\field-match-validator.ts" />
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\UserStatus.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\UserLoginDto.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\UserLoginResponseDto.ts" />
-    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\UserRegistrationDto.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\model\app-user.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\model\user-status.model.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\dto\user-login.dto.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\dto\user-login-response.dto.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\dto\user-registration.dto.ts" />
+    <TypeScriptCompile Include="ClientApp\src\app\_interfaces\model\weather-forecast.ts" />
     <TypeScriptCompile Include="ClientApp\src\validators\field-match-validator.ts" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="ClientApp\src\app\guards\" />
-    <Folder Include="ClientApp\src\app\services\" />
+    <Folder Include="ClientApp\src\app\services\administration\" />
   </ItemGroup>
 
     <Target Name="DebugEnsureNodeEnv" BeforeTargets="Build" Condition=" '$(Configuration)' == 'Debug' And !Exists('$(SpaRoot)node_modules') ">

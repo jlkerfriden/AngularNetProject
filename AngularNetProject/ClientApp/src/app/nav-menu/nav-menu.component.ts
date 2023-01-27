@@ -18,8 +18,6 @@ export class NavMenuComponent {
       .subscribe(res => {
         this.isAuth = res.isAuth;
         this.isRolePremium = res.roles.indexOf("Premium") >= 0;
-        console.log(this.isRolePremium);
-        //this.isRolePremium = res.roles === "Premium";
       })
   }
 

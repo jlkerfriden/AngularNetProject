@@ -1,8 +1,8 @@
-import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AuthenticationService } from '../services/authentication.service';
-import { UserLoginDto } from '../_interfaces/UserLoginDto';
+import { UserLoginDto } from '../_interfaces/dto/user-login.dto';
 
 @Component({
   selector: 'app-login',
@@ -39,7 +39,6 @@ export class LoginComponent implements OnInit {
 
     if (this.loginForm.valid) {
 
-      const config = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
       var strEmail = this.loginForm.get('email')?.value;
       var strPassword = this.loginForm.get('password')?.value;
 

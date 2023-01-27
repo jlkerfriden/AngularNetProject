@@ -1,12 +1,12 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { UserStatus } from '../_interfaces/UserStatus';
-import { UserLoginDto } from '../_interfaces/UserLoginDto';
-import { UserLoginResponseDto } from '../_interfaces/UserLoginResponseDto';
-import { UserRegistrationDto } from '../_interfaces/UserRegistrationDto';
-import { UserRegistrationResponseDto } from '../_interfaces/UserRegistrationResponseDto';
+import { HttpService } from './http.service';
+import { UserStatus } from '../_interfaces/model/user-status.model';
+import { UserLoginDto } from '../_interfaces/dto/user-login.dto';
+import { UserLoginResponseDto } from '../_interfaces/dto/user-login-response.dto';
+import { UserRegistrationDto } from '../_interfaces/dto/user-registration.dto';
+import { UserRegistrationResponseDto } from '../_interfaces/dto/user-registration-response.dto';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +17,14 @@ export class AuthenticationService {
   public authChangedObs = this.authChangeSubject.asObservable();
 
 
-  constructor(private http: HttpClient, @Inject('BASE_URL') private baseUrl: string, private jwtHelper: JwtHelperService) { }
+  constructor(private httpService: HttpService, private jwtHelper: JwtHelperService) { }
 
   public signup = (userRegistration: UserRegistrationDto) => {
-    const config = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
-    return this.http.post<UserRegistrationResponseDto>(this.baseUrl + 'register', userRegistration, { headers: config });
+    return this.httpService.post<UserRegistrationResponseDto>('register', userRegistration);
   }
 
   public login = (userLogin: UserLoginDto) => {
-    const config = new HttpHeaders().set('Content-Type', 'application/json').set('Accept', 'application/json');
-    return this.http.post<UserLoginResponseDto>(this.baseUrl + 'login', userLogin, { headers: config });
+    return this.httpService.post<UserLoginResponseDto>('login', userLogin);
   }
 
   public authStateChangeNotif = (userStatus: UserStatus) => {
@@ -37,18 +35,6 @@ export class AuthenticationService {
     const token = localStorage.getItem("token");
     return (token != null && !this.jwtHelper.isTokenExpired(token));
   }
-
-  //public isRolePremium = (): boolean => {
-  //  const token = localStorage.getItem("token");
-  //  var role;
-  //  if (token != null) {
-  //    const decodedToken = this.jwtHelper.decodeToken(token);
-  //    role = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
-  //  }
-
-  //  console.log(role === "Premium");
-  //  return role === "Premium";
-  //}
 
   public getRoles = (): string[] => {
     const token = localStorage.getItem("token");
