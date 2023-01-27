@@ -1,5 +1,6 @@
-import { Component, Inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Component } from '@angular/core';
+import { AppUser } from '../_interfaces/model/app-user.model';
+import { AdministrationService } from '../services/administration/administration.service';
 
 @Component({
   selector: 'app-administration',
@@ -8,14 +9,12 @@ import { HttpClient } from '@angular/common/http';
 export class AdministrationComponent {
   public users: AppUser[] = [];
 
-  constructor(http: HttpClient, @Inject('BASE_URL') baseUrl: string) {
-    http.get<AppUser[]>(baseUrl + 'appuser').subscribe(result => {
+  constructor(private administrationService: AdministrationService) {
+
+    this.administrationService.getAppUsers().subscribe(result => {
       this.users = result;
     }, error => console.error(error));
   }
 }
 
-interface AppUser {
-  email: string;
-  name: string;
-}
+
