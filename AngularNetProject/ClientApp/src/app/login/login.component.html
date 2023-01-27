@@ -1,0 +1,43 @@
+<div>
+  <div class="login">
+    <h3 class="login-header">
+      Login
+    </h3>
+    <form class="login-container" [formGroup]="loginForm" (submit)="sendLogin()" novalidate>
+      <div class="form-group">
+        <input type="email" class="form-control" formControlName="email" placeholder="Email" [ngClass]="{'login-input-valid': !email?.invalid && (email?.dirty || email?.touched)}" />
+        <div *ngIf="email?.invalid && (submitted || email?.touched)">
+          <div *ngIf="email?.errors?.['required']" class="alert alert-danger">
+            Email is required
+          </div>
+          <div *ngIf="email?.errors?.['email']" class="alert alert-danger">
+            Invalid email format
+          </div>
+        </div>
+
+        <input type="password" class="form-control" formControlName="password" placeholder="Password" [ngClass]="{'login-input-valid': !password?.invalid && (password?.dirty || password?.touched)}" />
+        <div *ngIf="password?.invalid && (submitted || password?.touched)">
+          <div *ngIf="password?.errors?.['required']" class="alert alert-danger">
+            Password is required
+          </div>
+        </div>
+
+
+        <button type="submit">Login</button>
+      </div>
+    </form>
+    <div>
+      <div>Need an account ? <a [routerLink]="['/sign-up']">Sign up</a></div>
+    </div>
+    <div *ngIf="successfull" id="login-successfull">
+      <div class="login-result-successfull-checkbox">&#10003;</div>
+      <div class="login-result-successfull-text">You have been logged in successfully</div>
+    </div>
+    <div *ngIf="!successfull && responseErrors != null && responseErrors.length > 0" id="login-error" class="login-result-error">
+      An error occured during login :
+      <ul>
+        <li *ngFor="let error of responseErrors">{{ error }}</li>
+      </ul>
+    </div>
+  </div>
+</div>
